@@ -1,0 +1,13 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "plan-review",
+  "version": "1.0.0",
+  "description": "Staff engineer review agent and plan-with-review skill",
+  "plugins": [
+    {
+      "name": "plan-review",
+      "description": "Staff engineer review agent and plan-with-review skill",
+      "source": "."
+    }
+  ]
+}
