@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "plan-review",
-      "description": "Staff engineer review agent and plan-with-review skill",
+      "description": "Staff engineer review agent, plan-with-review skill, and resolve-dependabot skill",
       "version": "1.0.0",
       "source": "./"
     }
