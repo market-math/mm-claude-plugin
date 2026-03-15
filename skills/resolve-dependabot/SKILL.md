@@ -19,6 +19,18 @@ DEFAULT_BRANCH=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)
    - `$SHIPAWARE_DOCS_PATH/shipAware/ops/runbooks/dependabot-critical-patches.md`
    - This is optional — proceed with the built-in instructions below if the runbook is unavailable.
 
+3. Verify the active Python version matches the Dockerfile target:
+```bash
+DOCKERFILE_PYTHON=$(grep -oP 'FROM python:\K[0-9]+\.[0-9]+' compose/local/django/Dockerfile 2>/dev/null | head -1)
+ACTIVE_PYTHON=$(python3 -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+```
+   - If `$DOCKERFILE_PYTHON` is empty (no Dockerfile or no match), log a warning and continue.
+   - If both values are present and **do not match**: **STOP immediately**. Report:
+     > **Python version mismatch.** Dockerfile requires Python `$DOCKERFILE_PYTHON` but active environment is Python `$ACTIVE_PYTHON`.
+     > Requirements compiled with the wrong version produce incorrect platform markers.
+     > Fix: activate a Python `$DOCKERFILE_PYTHON` virtual environment, then re-run.
+   - If they match, continue to Step 1.
+
 ## Step 1: Fetch & Triage Open Alerts
 
 Fetch all open Dependabot alerts:
