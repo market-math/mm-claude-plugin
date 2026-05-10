@@ -9,4 +9,5 @@ Within claude code:
 ```
 Then close and restart the claude session.
 ## Usage
-`/plan-with-review`
+- `/plan-with-review` — draft a plan, run the staff engineer review, then show the review and wait for your free-form reply on which items to apply.
+- `/plan-with-review auto` — same flow, but automatically incorporate every staff engineer suggestion with no user gate (the prior default behavior).
