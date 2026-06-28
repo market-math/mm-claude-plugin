@@ -1,5 +1,5 @@
 {
   "name": "plan-review",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Staff engineer review agent, plan-with-review skill, and resolve-dependabot skill"
 }
