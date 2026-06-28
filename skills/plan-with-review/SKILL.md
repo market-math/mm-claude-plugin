@@ -19,8 +19,15 @@ Two modes:
 
 Run the reviewer as **one continued agent across passes**, not a fresh subagent each time:
 
-- **First pass:** spawn `staff-engineer` with the Agent tool. Keep the returned `agentId`.
-- **Later passes:** continue that same agent with `SendMessage` to its `agentId` (its name also works),
+- **First pass:** spawn `staff-engineer` with the Agent tool as an **unnamed, foreground subagent**:
+  do not pass a `name`, and do not set `run_in_background`. Its review returns as the tool result, and
+  that result includes an `agentId` for continuation; keep that `agentId`. Do **not** spawn it as a
+  named or backgrounded teammate: on Claude Code v2.1.195 that path can leak write tools to the
+  read-only reviewer, and because the reviewer has no `SendMessage` tool it cannot deliver its review
+  back at all (the lead just gets a "finished" ping with no text). The plugin's `PreToolUse` hook is a
+  backstop for the leak; the unnamed-subagent path, where the `Read, Grep, Glob` allowlist is reliably
+  enforced, avoids both problems outright.
+- **Later passes:** continue that same agent with `SendMessage` to its `agentId`,
   sending the revised plan per *Continuation framing*. It resumes from its transcript with full memory,
   so it de-dups its own concerns and reports, each pass, which prior items are **RESOLVED**, still
   **OPEN**, or **NEW**. That report is its normal returned output (it does not need `SendMessage` in its
