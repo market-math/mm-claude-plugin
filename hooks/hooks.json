@@ -1,0 +1,17 @@
+{
+  "description": "Enforce read-only for the staff-engineer plan reviewer",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit|MultiEdit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/deny-reviewer-writes.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
