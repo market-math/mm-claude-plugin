@@ -6,6 +6,9 @@ on:
 
 jobs:
   call-claude-review:
+    # Skip on Dependabot PRs: an AI review of a lockfile/version bump adds no
+    # value and the reusable workflow can't run in the Dependabot secret context.
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
     uses: market-math/shared-workflows/.github/workflows/claude-code-review.yml@main
     secrets: inherit
     permissions:
